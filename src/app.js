@@ -2,12 +2,37 @@ var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
+var session = require('express-session');
 var logger = require('morgan');
+var app = express();
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
-var app = express();
+var MySQLStore = require('express-mysql-session')(session);
+
+var options = {
+  host: 'mysql',
+  port: 3306,
+  user: 'root',
+  password: 'password',
+  database: 'todo'
+};
+
+var sessionStore = new MySQLStore(options);
+
+app.use(session({
+  secret: 'secret',
+  resave: false,
+  saveUninitialized: true,
+  cookie:{
+    httpOnly: false,
+    secure: false,
+    maxage: 1000 * 60 * 30
+  },
+  store: new MySQLStore(options),
+}));
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
