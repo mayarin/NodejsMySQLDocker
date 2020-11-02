@@ -2,10 +2,45 @@ extends layout
 
 block content
   h1= title
+  div
+    h2 ログイン
+    form.login_form(action="login", method="post")
+      span.form_title メールアドレス
+      input.form_parts(type='email' name='mailaddress' placeholder='メールアドレス...' value=login_mailaddress)
+      br
+      span.form_title パスワード
+      input.form_parts(type='password' name='password' placeholder='パスワード...')
+      br
+      button(type='submit') ログイン
+    if login_failed_reason != ''
+      p= login_failed_reason
 
-    form(action="login", method="post")
-      input(type='email' name='mailaddress')
+  div
+    h2 アカウントのない方
+    form(action="signup", method="post")
+      span.form_title ユーザー名
+      input.form_parts(type='text' name='name' placeholder='ユーザー名...' value=signup_name)
       br
-      input(type='password' name='password')
+      span.form_title メールアドレス
+      input.form_parts(type='email' name='mailaddress' placeholder='メールアドレス...' value=signup_mailaddress)
       br
-      button(type='submit') Login
+      span.form_title パスワード
+      input.form_parts(type='password' name='password' placeholder='パスワード...')
+      br
+      input.form_parts(type='checkbox' name='agree')
+      span.form_title 利用規約に同意
+      br
+      button(type='submit') サインアップ
+    if signup_failed_reason != ''
+      p= signup_failed_reason
+
+  div
+    h2 パスワードリマインダ
+    form(action="remind", method="post")
+      span.form_title メールアドレス
+      input.form_parts(type='email' name='mailaddress' placeholder='メールアドレス...')
+      br
+      button(type='submit') パスワード変更メールを請求
+
+
+

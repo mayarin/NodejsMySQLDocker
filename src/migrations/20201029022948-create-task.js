@@ -11,6 +11,9 @@ module.exports = {
       task: {
         type: Sequelize.STRING
       },
+      owner: {
+        type: Sequelize.INTEGER
+      },
       done: {
         type: Sequelize.BOOLEAN
       },
