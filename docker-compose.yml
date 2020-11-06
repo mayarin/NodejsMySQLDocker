@@ -31,6 +31,7 @@ services:
     #（ホスト側の./srcをコンテナの/appにマウント）
     volumes:
       - ./src:/app
+      - /node_modules
 
     # 起動時のカレントフォルダを指定
     working_dir: /app
@@ -42,10 +43,13 @@ services:
     depends_on:
       - mysql
 
-  mail:
+  mailhog:
     image: mailhog/mailhog
     ports:
       - 8025:8025
+      - 1025:1025
+    networks:
+      - backend
 
 networks:
   backend:
