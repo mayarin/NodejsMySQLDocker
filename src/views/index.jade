@@ -6,10 +6,10 @@ block content
     h2 ログイン
     form.login_form(action="login", method="post")
       span.form_title メールアドレス
-      input.form_parts(type='email' name='mailaddress' placeholder='メールアドレス...' value=login_mailaddress)
+      input.form_parts(type='email' name='mailaddress' placeholder='メールアドレス...' value=login_mailaddress required)
       br
       span.form_title パスワード
-      input.form_parts(type='password' name='password' placeholder='パスワード...')
+      input.form_parts(type='password' name='password' placeholder='パスワード...' required)
       br
       button(type='submit') ログイン
     if login_failed_reason != ''
@@ -19,15 +19,15 @@ block content
     h2 アカウントのない方
     form(action="signup", method="post")
       span.form_title ユーザー名
-      input.form_parts(type='text' name='name' placeholder='ユーザー名...' value=signup_name)
+      input.form_parts(type='text' name='name' placeholder='ユーザー名...' value=signup_name required)
       br
       span.form_title メールアドレス
-      input.form_parts(type='email' name='mailaddress' placeholder='メールアドレス...' value=signup_mailaddress)
+      input.form_parts(type='email' name='mailaddress' placeholder='メールアドレス...' value=signup_mailaddress required)
       br
       span.form_title パスワード
-      input.form_parts(type='password' name='password' placeholder='パスワード...')
+      input.form_parts(type='password' name='password' placeholder='パスワード...' required)
       br
-      input.form_parts(type='checkbox' name='agree')
+      input.form_parts(type='checkbox' name='agree' required)
       span.form_title 利用規約に同意
       br
       button(type='submit') サインアップ
@@ -38,9 +38,11 @@ block content
     h2 パスワードリマインダ
     form(action="remind", method="post")
       span.form_title メールアドレス
-      input.form_parts(type='email' name='mailaddress' placeholder='メールアドレス...')
+      input.form_parts(type='email' name='mailaddress' placeholder='メールアドレス...' required)
       br
       button(type='submit') パスワード変更メールを請求
+    if remind_failed_reason != ''
+      p= remind_failed_reason
 
 
 

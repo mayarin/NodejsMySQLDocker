@@ -18,6 +18,11 @@ module.exports = (sequelize, DataTypes) => {
     name: DataTypes.STRING,
     mailaddress: DataTypes.STRING,
     password: DataTypes.STRING,
+    wheretogo: DataTypes.STRING,
+    go_date: DataTypes.DATE,
+    go_time: DataTypes.TIME,
+    back_date: DataTypes.DATE,
+    back_time: DataTypes.TIME,
     active: DataTypes.BOOLEAN
   }, {
     sequelize,

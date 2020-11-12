@@ -1,0 +1,19 @@
+extends layout
+
+block content
+  h1= title
+  div
+    form(action="/password/reset", method="post")
+      span.form_title メールアドレス
+      input.form_parts(type='mailaddress' name='mailaddress' placeholder='メールアドレス...' value='' require)
+      br
+      span.form_title 新しいパスワード
+      input.form_parts(type='password' name='password' placeholder='パスワード...' value='' require)
+      br
+      span.form_title 新しいパスワード（確認）
+      input.form_parts(type='password' name='password_verify' placeholder='新しいパスワード（確認）...' value='' require)
+      br
+      input.form_parts(type='hidden' name='token' value=token)
+      button(type='submit') パスワード更新
+    if remind_failed_reason != ''
+      p= remind_failed_reason

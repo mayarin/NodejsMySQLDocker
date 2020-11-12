@@ -3,7 +3,74 @@ extends layout
 block content
   h1= title
 
+  div
+    h2 メンバー一覧
+    table.tasks
+      tr
+        th.name 名前
+        th.where 行先
+        th.time 自
+        th.time 至
+      each t in dataset
+        tr
+          td.name= t.name
+          if t.wheretogo != '' && t.wheretogo != null
+            td.where= t.wheretogo
+            td.time= t.go_date+t.go_time
+            td.time= t.back_date+t.back_time
+          else
+            td.where= '社内'
+            td.time= ''
+            td.time= ''
 
   div
+    h2 行先登録
+    form(action="/setdata", method="post")
+      span.form_title 行先
+      input.form_parts(type='text' name='wheretogo' placeholder='行先...' value=userinfo.wheretogo required)
+      br
+      span.form_title 出発日時
+      if userinfo.wheretogo != '' && userinfo.wheretogo != null
+        input.form_parts(type='date' name='go_date' placeholder='出発日...' value=userinfo.go_date required)
+        input.form_parts(type='time' name='go_time' placeholder='出発時刻...' value=userinfo.go_time required)
+      else
+        input.form_parts(type='date' name='go_date' placeholder='出発日...' value='' required)
+        input.form_parts(type='time' name='go_time' placeholder='出発時刻...' value='' required)
+      br
+      span.form_title 帰社日時
+      if userinfo.wheretogo != '' && userinfo.wheretogo != null
+        input.form_parts(type='date' name='back_date' placeholder='帰社日...' value=userinfo.back_date required)
+        input.form_parts(type='time' name='back_time' placeholder='帰社時刻...' value=userinfo.back_time required)
+      else
+        input.form_parts(type='date' name='back_date' placeholder='帰社日...' value='' required)
+        input.form_parts(type='time' name='back_time' placeholder='帰社時刻...' value='' required)
+      br
+      input.form_parts(type='checkbox' name='remove' value='1')
+      span.form_title 削除
+      br
+      button(type='submit') 反映
+
+  div
+    h2 ユーティリティ
+    h3 アカウント情報変更
+    form(action="update_profile", method="post")
+      span.form_title ユーザー名
+      input.form_parts(type='text' name='name' placeholder='ユーザー名...' value=userinfo.name require)
+      br
+      span.form_title メールアドレス
+      input.form_parts(type='email' name='mailaddress' placeholder='メールアドレス...' value=userinfo.mailaddress)
+      br
+      button(type='submit') プロフィール更新
+
+    h3 パスワード更新
+    form(action="update_password", method="post")
+      span.form_title 新しいパスワード
+      input.form_parts(type='password' name='password' placeholder='パスワード...' value='' require)
+      br
+      span.form_title 新しいパスワード（確認）
+      input.form_parts(type='password' name='password' placeholder='新しいパスワード（確認）...' value='' require)
+      br
+      button(type='submit') パスワード更新
+
     form(action="logout", method="post")
       button(type='submit') ログアウト
