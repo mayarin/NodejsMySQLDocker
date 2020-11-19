@@ -12,10 +12,10 @@ var usersRouter = require('./routes/users');
 var MySQLStore = require('express-mysql-session')(session);
 
 var options = {
-  host: 'mysql',
+  host: '54.150.104.149',
   port: 3306,
-  user: 'root',
-  password: 'password',
+  user: 'user',
+  password: 'dvQXL55e', //dvQXL55e
   database: 'todo'
 };
 

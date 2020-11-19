@@ -28,7 +28,7 @@ var signup_mailaddress = '';
 var login_mailaddress = '';
 
 router.get('/', async function(req, res) {
-  // console.log('L10 ', signup_failed_reason);
+  console.log('L10 ', signup_failed_reason);
 
   if (!req.session.user) {
     res.render('index',
