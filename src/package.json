@@ -12,6 +12,7 @@
     "debug": "~2.6.9",
     "express": "~4.16.1",
     "express-mysql-session": "^2.1.4",
+    "gmail-send": "^1.8.10",
     "http-errors": "~1.6.3",
     "jade": "~1.11.0",
     "mailhog": "^4.15.0",
