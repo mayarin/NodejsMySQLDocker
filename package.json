@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "start": "node src/bin/www",
-    "heroku-postbuild": "npm i --prefix=src"
+    "heroku-postbuild": "npm i --prefix=src",
+    "sequelize": "sequelize"
   },
   "engines": {
     "node": "12.x"
