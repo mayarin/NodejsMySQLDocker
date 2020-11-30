@@ -1,7 +1,9 @@
 {
   "name": "docker-nodejs",
   "version": "1.0.0",
+  "private": true,
   "description" : "hogehoge",
+  "repository": "fugafuga",
   "scripts": {
     "start": "node src/bin/www",
     "heroku-postbuild": "npm i --prefix=src",
