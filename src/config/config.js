@@ -22,7 +22,7 @@ module.exports = {
     password: "password",
     host: "127.0.0.1",
     port: "3306",
-    dialect: 'postgres',
+    dialect: 'mysql',
     define: {
       underscored: true
     },
@@ -33,7 +33,7 @@ module.exports = {
     password: "dvQXL55e",
     host: "54.150.104.149",
     port: "3306",
-    dialect: 'postgres',
+    dialect: 'mysql',
     define: {
       underscored: true
     },
@@ -44,7 +44,7 @@ module.exports = {
     password: "dvQXL55e",
     host: "54.150.104.149",
     port: "3306",
-    dialect: 'postgres',
+    dialect: 'mysql',
     define: {
       underscored: true
     },
