@@ -19,6 +19,6 @@ module.exports = {
     password: "dvQXL55e",
     database: "todo",
     host: "54.150.104.149",
-    dialect: 'mysql',
+    dialect: 'mariadb',
   },
 };
