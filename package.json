@@ -1,6 +1,7 @@
 {
   "name": "docker-nodejs",
   "version": "1.0.0",
+  "description" : "hogehoge",
   "scripts": {
     "start": "node src/bin/www",
     "heroku-postbuild": "npm i --prefix=src",
