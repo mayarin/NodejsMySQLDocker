@@ -20,7 +20,7 @@ module.exports = {
     database: "todo",
     username: "root",
     password: "password",
-    host: "127.0.0.1",
+    host: "mysql",
     port: "3306",
     dialect: 'mysql',
     define: {
