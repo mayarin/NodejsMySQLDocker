@@ -1,53 +1,31 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('Users', {
-      id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: Sequelize.INTEGER
-      },
-      name: {
-        type: Sequelize.STRING
-      },
-      mailaddress: {
-        type: Sequelize.STRING
-      },
-      password: {
-        type: Sequelize.STRING
-      },
-      wheretogo: {
-        type: Sequelize.STRING
-      },
-      go_date: {
-        allowNull: false,
-        type: Sequelize.DATE
-      },
-      go_time: {
-        allowNull: false,
-        type: Sequelize.TIME
-      },
-      back_date: {
-        allowNull: false,
-        type: Sequelize.DATE
-      },
-      back_time: {
-        allowNull: false,
-        type: Sequelize.TIME
-      },
-      active: {
-        type: Sequelize.BOOLEAN
-      },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      }
-    });
+     queryInterface.addColumn('Users', 'wheretogo',
+     {type: Sequelize.STRING,
+      after: 'password' // after option is only supported by MySQL
+     });
+
+     queryInterface.addColumn('Users', 'go_date',
+     {type: Sequelize.DATE,
+      after: 'wheretogo' // after option is only supported by MySQL
+     });
+
+     queryInterface.addColumn('Users', 'go_time',
+     {type: Sequelize.TIME,
+      after: 'go_date' // after option is only supported by MySQL
+     });
+
+     queryInterface.addColumn('Users', 'back_date',
+     {type: Sequelize.DATE,
+      after: 'go_time' // after option is only supported by MySQL
+     });
+
+     queryInterface.addColumn('Users', 'back_time',
+     {type: Sequelize.TIME,
+      after: 'back_date' // after option is only supported by MySQL
+     });
+
   },
   down: async (queryInterface, Sequelize) => {
     await queryInterface.dropTable('Users');
