@@ -120,6 +120,7 @@ router.post('/signup', async function(req, res) {
       active: false
     }
   }). then(([user]) => {
+    console.log('L123 '+ user.mailaddress);
     if(user.id && user.active) {
       signup_failed_reason = '既に同じメールアドレスのアカウントがあります。';
       res.redirect('/');
