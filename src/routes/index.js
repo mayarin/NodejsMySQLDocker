@@ -129,7 +129,7 @@ router.post('/signup', async function(req, res) {
         .update(user.mailaddress)
         .digest('hex');
       const now = new Date();
-      console.log('L132 '+now.getHours());
+      console.log('L132 now = '+now, ' now.getHours() =' + now.getHours());
       const expiration = now.setHours(now.getHours() + 2); // 1時間だけ有効
       console.log('L134 '+now.getHours(), now.getHours() + 1);
       console.log('L135 '+expiration);
