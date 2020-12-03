@@ -9,15 +9,22 @@ const Users = db.Users;
 
 const nodemailer = require("nodemailer");
 
+// const transporter = nodemailer.createTransport({
+//   host: "mailhog",
+//   port: 1025,
+//   auth: {
+//     user: 'user',
+//     pass: 'password',
+//   }
+// });
 const transporter = nodemailer.createTransport({
-  host: "mailhog",
-  port: 1025,
+  host: "smtp.sendgrid.net",
+  port: 465,
   auth: {
-    user: 'user',
-    pass: 'password',
+    user: 'apikey',
+    pass: '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',
   }
 });
-
 
 var signup_failed_reason = '';
 var login_failed_reason = '';
@@ -28,7 +35,6 @@ var signup_mailaddress = '';
 var login_mailaddress = '';
 
 router.get('/', async function(req, res) {
-  console.log('L10 ', signup_failed_reason);
 
   if (!req.session.user) {
     res.render('index',
@@ -131,30 +137,18 @@ router.post('/signup', async function(req, res) {
       verificationUrl += '&signature='+ signature;
 
       // 本登録メールを送信
-      // transporter.sendMail({
-      //   from: 'from@example.com',
-      //   to: 'to@example.com',
-      //   text: "以下のURLをクリックして本登録を完了させてください。\n\n"+ verificationUrl,
-      //   subject: '本登録メール',
-      // });
-
-      const send = require('gmail-send')({
-        user: 'maya.web.adm@gmail.com',
-        pass: 'hqcrekxg',
-        to:   user.mailaddress,
+      transporter.sendMail({
+        from: 'maya.web.adm@gmail.com',
+        to:  req.body.mailaddress,
+        text: user.mailaddress+"様\n\n以下のURLをクリックして本登録を完了させてください。\n\n"+ verificationUrl,
         subject: '本登録メール',
       });
 
-      send({
-        text: user.mailaddress+"様\n\n以下のURLをクリックして本登録を完了させてください。\n\n"+ verificationUrl,
-      }, (error, result, fullResult) => {
-        if (error) {
-          console.error(error);
-        } else {
-          signup_failed_reason = '仮登録メールを発信しました。';
-        }
-        console.log(result);
-      })
+      if(user.id){
+        signup_failed_reason = '仮登録メールを再送しました。';
+      } else {
+        signup_failed_reason = '仮登録メールを発信しました。';
+      }
 
       res.redirect('/');
     }
@@ -288,35 +282,16 @@ router.post('/remind', async function(req, res) {
         passwordReset.save();
       }
 
-      const send = require('gmail-send')({
-        user: 'maya.web.adm@gmail.com',
-        pass: 'hqcrekxg',
-        to:   email,
+      // メール送信
+      transporter.sendMail({
+        from: 'from@example.com',
+        to: email,
+        text: "以下のURLをクリックしてパスワードを再発行してください。\n\n"+ passwordResetUrl,
         subject: 'パスワード再発行メール',
       });
 
-      // // メール送信
-      // transporter.sendMail({
-      //   from: 'from@example.com',
-      //   to: email,
-      //   text: "以下のURLをクリックしてパスワードを再発行してください。\n\n"+ passwordResetUrl,
-      //   subject: 'パスワード再発行メール',
-      // });
-
-      send({
-        text: email+"様\n\n以下のURLをクリックしてパスワードを再発行してください。\n\n"+ passwordResetUrl,
-      }, (error, result, fullResult) => {
-        if (error) {
-          console.error(error);
-          remind_failed_reason += 'パスワード再発行メールを発信できませんでした。';
-        } else {
-          remind_failed_reason += 'パスワード再発行メールを発信しました。';
-        }
-        console.log(result);
-      });
-
       res.json({ result: true });
-      // remind_failed_reason = 'パスワード再発行メールを発信しました。';
+      remind_failed_reason = 'パスワード再発行メールを発信しました。';
     });
     res.redirect('/');
   }
