@@ -131,7 +131,7 @@ router.post('/signup', async function(req, res) {
       const now = new Date();
       console.log('L132 now = '+now, ' now.getHours() =' + now.getHours());
       const expiration = now.setHours(now.getHours() + 1); // 1時間だけ有効
-      console.log('L135 ', expiration);
+      console.log('L135 expiration = '+ expiration, ' now = '+ now);
       let verificationUrl = req.get('origin') +'/verify/'+ user.id +'/'+ hash +'?expires='+ expiration;
       const signature = crypto.createHmac('sha256', appKey)
         .update(verificationUrl)
