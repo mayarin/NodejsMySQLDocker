@@ -129,9 +129,8 @@ router.post('/signup', async function(req, res) {
         .update(user.mailaddress)
         .digest('hex');
       const now = new Date();
-      console.log('L132 now = '+now, ' now.getHours() =' + now.getHours());
       const expiration = now.setHours(now.getHours() + 1); // 1時間だけ有効
-      console.log('L135 expiration = '+ expiration, ' now = '+ now);
+      console.log('L135 now = '+ now);
       let verificationUrl = req.get('origin') +'/verify/'+ user.id +'/'+ hash +'?expires='+ expiration;
       const signature = crypto.createHmac('sha256', appKey)
         .update(verificationUrl)
@@ -177,13 +176,15 @@ router.get('/verify/:id/:hash', (req, res) => {
           .update(user.mailaddress)
           .digest('hex');
         const isCorrectHash = (hash === req.params.hash);
+        console.log('L179 req.query.expires =' + req.query.expires);
         const isExpired = (now.getTime() > parseInt(req.query.expires));
-        const verificationUrl = 'http://127.0.0.1:3000' + req.originalUrl.split('&signature=')[0];
+        const verificationUrl = 'https://rocky-wildwood-40562.herokuapp.com/' + req.originalUrl.split('&signature=')[0];
         const signature = crypto.createHmac('sha256', appKey)
           .update(verificationUrl)
           .digest('hex');
         const isCorrectSignature = (signature === req.query.signature);
 
+        console.log('L187 isCorrectHash =' + isCorrectHash + ' isCorrectSignature = '+isCorrectSignature + ' isExpired = '+isExpired);
         if(!isCorrectHash || !isCorrectSignature || isExpired) {
 
           res.status(422).send('このURLはすでに有効期限切れか、正しくありません。');
