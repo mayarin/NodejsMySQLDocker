@@ -120,7 +120,6 @@ router.post('/signup', async function(req, res) {
       active: false
     }
   }). then(([user]) => {
-    console.log('L123 '+ user.mailaddress);
     if(user.id && user.active) {
       signup_failed_reason = '既に同じメールアドレスのアカウントがあります。';
       res.redirect('/');
@@ -129,9 +128,9 @@ router.post('/signup', async function(req, res) {
       const hash = crypto.createHash('sha1')
         .update(user.mailaddress)
         .digest('hex');
+      console.log('L131 hash = '+ hash);
       const now = new Date();
       const expiration = now.setHours(now.getHours() + 1); // 1時間だけ有効
-      console.log('L135 now = '+ now);
       let verificationUrl = req.get('origin') +'/verify/'+ user.id +'/'+ hash +'?expires='+ expiration;
       const signature = crypto.createHmac('sha256', appKey)
         .update(verificationUrl)
@@ -162,6 +161,7 @@ router.get('/verify/:id/:hash', (req, res) => {
   const userId = req.params.id;
   Users.findByPk(userId)
     .then(user => {
+      console.log('L164 '+ user.mailaddress);
 
       if(!user) {
         res.status(422).send('このURLは正しくありません。');
@@ -176,8 +176,8 @@ router.get('/verify/:id/:hash', (req, res) => {
         const hash = crypto.createHash('sha1')
           .update(user.mailaddress)
           .digest('hex');
+        console.log('L179 hash = '+ hash);
         const isCorrectHash = (hash === req.params.hash);
-        console.log('L179 req.query.expires =' + req.query.expires);
         const isExpired = (now.getTime() > parseInt(req.query.expires));
         const verificationUrl = 'https://rocky-wildwood-40562.herokuapp.com/' + req.originalUrl.split('&signature=')[0];
         const signature = crypto.createHmac('sha256', appKey)
