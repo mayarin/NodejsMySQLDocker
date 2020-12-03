@@ -25,7 +25,7 @@ module.exports = {
     dialect: 'mysql',
     define: {
       freezeTableName: true,
-      underscored: true
+      underscored: false
     },
   },
   test: {
@@ -37,7 +37,7 @@ module.exports = {
     dialect: 'mysql',
     define: {
       freezeTableName: true,
-      underscored: true
+      underscored: false
     },
   },
   production: {
@@ -49,7 +49,7 @@ module.exports = {
     dialect: 'mysql',
     define: {
       freezeTableName: true,
-      underscored: true
+      underscored: false
     },
   },
 }
