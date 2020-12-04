@@ -128,13 +128,13 @@ router.post('/signup', async function(req, res) {
       const hash = crypto.createHash('sha1')
         .update(user.mailaddress)
         .digest('hex');
-      console.log('L131 hash = '+ hash);
       const now = new Date();
       const expiration = now.setHours(now.getHours() + 1); // 1時間だけ有効
       let verificationUrl = req.get('origin') +'/verify/'+ user.id +'/'+ hash +'?expires='+ expiration;
       const signature = crypto.createHmac('sha256', appKey)
         .update(verificationUrl)
         .digest('hex');
+      console.log('L137 signature = '+ signature);
       verificationUrl += '&signature='+ signature;
 
       // 本登録メールを送信
@@ -161,7 +161,6 @@ router.get('/verify/:id/:hash', (req, res) => {
   const userId = req.params.id;
   Users.findByPk(userId)
     .then(user => {
-      console.log('L164 '+ user.mailaddress);
 
       if(!user) {
         res.status(422).send('このURLは正しくありません。');
@@ -182,9 +181,11 @@ router.get('/verify/:id/:hash', (req, res) => {
         const signature = crypto.createHmac('sha256', appKey)
           .update(verificationUrl)
           .digest('hex');
+        console.log('L184 signature = '+ signature);
+        console.log('L185 req.query.signature = '+ req.query.signature);
         const isCorrectSignature = (signature === req.query.signature);
 
-        console.log('L187 isCorrectHash =' + (!isCorrectHash) + ' isCorrectSignature = '+ (!isCorrectSignature) + ' isExpired = '+isExpired);
+        console.log('L187 isCorrectHash = ' + (!isCorrectHash) + ' isCorrectSignature = '+ (!isCorrectSignature) + ' isExpired = '+isExpired);
         if(!isCorrectHash || !isCorrectSignature || isExpired) {
 
           res.status(422).send('このURLはすでに有効期限切れか、正しくありません。');
