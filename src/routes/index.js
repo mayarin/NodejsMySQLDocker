@@ -176,7 +176,6 @@ router.get('/verify/:id/:hash', (req, res) => {
         const hash = crypto.createHash('sha1')
           .update(user.mailaddress)
           .digest('hex');
-        console.log('L179 hash = '+ hash);
         const isCorrectHash = (hash === req.params.hash);
         const isExpired = (now.getTime() > parseInt(req.query.expires));
         const verificationUrl = 'https://rocky-wildwood-40562.herokuapp.com/' + req.originalUrl.split('&signature=')[0];
@@ -185,7 +184,7 @@ router.get('/verify/:id/:hash', (req, res) => {
           .digest('hex');
         const isCorrectSignature = (signature === req.query.signature);
 
-        console.log('L187 isCorrectHash =' + isCorrectHash + ' isCorrectSignature = '+isCorrectSignature + ' isExpired = '+isExpired);
+        console.log('L187 isCorrectHash =' + (!isCorrectHash) + ' isCorrectSignature = '+ (!isCorrectSignature) + ' isExpired = '+isExpired);
         if(!isCorrectHash || !isCorrectSignature || isExpired) {
 
           res.status(422).send('このURLはすでに有効期限切れか、正しくありません。');
