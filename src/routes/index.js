@@ -178,7 +178,8 @@ router.get('/verify/:id/:hash', (req, res) => {
           .digest('hex');
         const isCorrectHash = (hash === req.params.hash);
         const isExpired = (now.getTime() > parseInt(req.query.expires));
-        const verificationUrl = 'https://rocky-wildwood-40562.herokuapp.com/' + req.originalUrl.split('&signature=')[0];
+        const verificationUrl = 'https://rocky-wildwood-40562.herokuapp.com' + req.originalUrl.split('&signature=')[0];
+        console.log('L182 req.get("origin") + = '+ req.get('origin'));
         console.log('L182 verificationUrl = '+ verificationUrl);
         const signature = crypto.createHmac('sha256', appKey)
           .update(verificationUrl)
