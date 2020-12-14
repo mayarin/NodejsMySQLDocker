@@ -1,3 +1,5 @@
 /.DS_Store
 /.history
 src/views/~index.jade
+sendgrid.env
+/ignore

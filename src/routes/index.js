@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 const router = express.Router();
 const db = require('../models');
 const crypto = require('crypto');
-const appKey = 'Gcsr4iWvidjlVW3h3yeU3Gvj';
+const appKey = 'xxxxxxxxxxxxxxxxxxxxxxxx';
 const PasswordReset = db.PasswordReset;
 const Users = db.Users;
 
